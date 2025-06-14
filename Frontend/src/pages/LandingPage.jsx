@@ -2,8 +2,20 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Heart, Users, MapPin, Clock, Leaf, ArrowRight, Sparkles, Phone, MessageCircle, Building } from "lucide-react"
 import { Link } from "react-router-dom"
+import { useEffect, useState } from 'react';
 
 export default function LandingPage() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Only render router-dependent elements on client side
+  if (!isMounted) {
+    return <div>Loading...</div>; // Or your loading component
+  }
+
   const features = [
     {
       icon: MapPin,
@@ -207,8 +219,151 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Rest of the component remains the same... */}
-      {/* I'll continue with the remaining sections in the next part */}
+      {/* Features Section */}
+      <section id="how-it-works" className="py-20 px-4 bg-white">
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-12">
+            How Left2Right Works
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="p-6 bg-gray-50 rounded-lg shadow-md transform hover:scale-105 transition-all duration-300"
+                style={{ animationDelay: `${300 + index * 100}ms` }}
+              >
+                <div className="text-green-600 mb-4">
+                  <feature.icon className="w-8 h-8 mx-auto" />
+                </div>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Access Methods Section */}
+      <section id="access-methods" className="py-20 px-4 bg-gradient-to-b from-green-50 to-orange-50">
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-12">
+            Multiple Ways to Get Help
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            {accessMethods.map((method, index) => (
+              <div
+                key={index}
+                className={`p-6 rounded-lg shadow-md transform hover:scale-105 transition-all duration-300 ${method.color}`}
+                style={{ animationDelay: `${300 + index * 100}ms` }}
+              >
+                <div className="text-3xl mb-4">
+                  <method.icon className="w-8 h-8 mx-auto" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  {method.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {method.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Impact Section */}
+      <section id="impact" className="py-20 px-4 bg-white">
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-12">
+            Our Impact So Far
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {stats.map((stat, index) => (
+              <div
+                key={index}
+                className="p-6 bg-gray-50 rounded-lg shadow-md text-center"
+                style={{ animationDelay: `${300 + index * 100}ms` }}
+              >
+                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">
+                  {stat.number}
+                </div>
+                <div className="text-gray-600 text-sm uppercase tracking-wider">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 px-4 bg-gradient-to-b from-green-50 to-orange-50">
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-12">
+            What People Say
+          </h2>
+
+          <div className="flex flex-col md:flex-row gap-8 max-w-4xl mx-auto">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="p-6 bg-white rounded-lg shadow-md transform hover:scale-105 transition-all duration-300"
+                style={{ animationDelay: `${300 + index * 100}ms` }}
+              >
+                <p className="text-gray-600 mb-4">
+                  "{testimonial.content}"
+                </p>
+                <div className="flex items-center justify-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                    <Heart className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-gray-800 font-semibold">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-gray-500 text-sm">
+                      {testimonial.role}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action Section */}
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-8">
+            Ready to Make a Difference?
+          </h2>
+          <p className="text-lg text-gray-600 mb-12">
+            Join Left2Right today and help us turn surplus food into sustenance for those in need.
+          </p>
+          <Link to="/auth">
+            <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 text-lg transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+              Get Started Now
+            </Button>
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 px-4 bg-gray-100">
+        <div className="container mx-auto text-center">
+          <p className="text-gray-600 text-sm">
+            &copy; 2023 Left2Right. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   )
 }
