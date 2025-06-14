@@ -1,5 +1,8 @@
+"use client"
+
 import { Inter } from "next/font/google"
 import "./globals.css"
+import { useEffect, useState } from "react"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -11,6 +14,16 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) {
+    return <div>Loading...</div>
+  }
+
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
